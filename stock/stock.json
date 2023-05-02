@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "name": "BBRI.JK",
+      "last_predict": 0,
+      "rmse": 0.0,
+      "updated_at": 132131,
+      "last_file": ""
+    },
+    {
+      "name": "BBCA.JK",
+      "last_predict": 0,
+      "rmse": 0.0,
+      "updated_at": 132131,
+      "last_file": ""
+    },
+    {
+      "name": "BMRI.JK",
+      "updated_at": 1683050421,
+      "last_file": "2023-05-03.csv",
+      "rmse": 9.112220717921401
+    }
+  ]
+}
