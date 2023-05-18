@@ -38,6 +38,27 @@
 #   return predic, y_test
 
 
-import time, math
+# import time, math
 
-print(math.floor(time.time()))
+# print(math.floor(time.time()))
+
+# make me array 1-100
+# arr= []
+# for i in range(1, 101):
+#     arr.append(i)
+
+# print(arr[-10:1])
+
+import time
+arr = ['BBCA.JK', 'BMRI.JK', 'BBRI.JK']
+
+i = 0
+while True:
+    
+
+
+    i = i + 1
+    if i == len(arr):
+        time.sleep(5)
+        i = 0
+    time.sleep(5)
