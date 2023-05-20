@@ -2,9 +2,41 @@
   "data": [
     {
       "name": "BBCA.JK",
-      "last_date": "",
+      "last_date": "2023-05-19",
       "data_predict": [
-        { "updated_at": 0, "name_file": "", "rmse": 0, "predict": 0 }
+        {
+          "updated_at": 1684492486,
+          "name_file": "2023-05-19.csv",
+          "rmse": 82.67405013807591,
+          "predict": 8880.0791015625,
+          "date": "2023-05-19"
+        }
+      ]
+    },
+    {
+      "name": "BMRI.JK",
+      "last_date": "2023-05-19",
+      "data_predict": [
+        {
+          "updated_at": 1684492619,
+          "name_file": "2023-05-19.csv",
+          "rmse": 15.84779344080438,
+          "predict": 5069.0634765625,
+          "date": "2023-05-19"
+        }
+      ]
+    },
+    {
+      "name": "BBRI.JK",
+      "last_date": "2023-05-19",
+      "data_predict": [
+        {
+          "updated_at": 1684492787,
+          "name_file": "2023-05-19.csv",
+          "rmse": 69.68291922854513,
+          "predict": 5156.02392578125,
+          "date": "2023-05-19"
+        }
       ]
     }
   ]

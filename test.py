@@ -49,16 +49,37 @@
 
 # print(arr[-10:1])
 
-import time
-arr = ['BBCA.JK', 'BMRI.JK', 'BBRI.JK']
+# import time
+# arr = ['BBCA.JK', 'BMRI.JK', 'BBRI.JK']
 
-i = 0
-while True:
+# i = 0
+# while True:
     
 
 
-    i = i + 1
-    if i == len(arr):
-        time.sleep(5)
-        i = 0
-    time.sleep(5)
+#     i = i + 1
+#     if i == len(arr):
+#         time.sleep(5)
+#         i = 0
+#     time.sleep(5)
+
+
+
+# import yfinance as yf
+
+# data = yf.download("AAPL", start="2010-01-01", end="2024-04-30")
+
+# print(data)
+import csv, json
+
+def csv_to_json(csv_path):
+    # Read CSV file
+    with open(csv_path, 'r') as csv_file:
+        # Parse CSV data
+        csv_data = csv.DictReader(csv_file)
+        # Convert CSV to JSON
+        json_data = json.dumps([row for row in csv_data])
+
+    return json_data
+
+print(csv_to_json("e:\Stock Predict LSTM\LSTM-StockPredict/backend\static\..\../stock/BBRI.JK/2023-05-19.csv"))

@@ -16,9 +16,10 @@ import pandas as pd
 # plt.style.use('fivethirtyeight')
 def downloadData(ticker):
     data = yf.download(ticker, start="2010-01-01", end="2024-04-30")
+    print(f"======================{ticker}=======================")
     return data
 
-def ganerateData(ticker):
+def ganerateData(ticker, data):
     with open('./stock/stock.json', 'r') as f:
         jsonStock = json.load(f)
 
@@ -30,15 +31,21 @@ def ganerateData(ticker):
         if stock['name'] == ticker:
             index = i
             isTickerExist = True
-            jsonStock['data'][index]['data_predict'].append({
-                "updated_at": 0,
-                "name_file": "",
-                "rmse": 0,
-                "predict": 0,
-            })
-            predict_index = len(jsonStock['data'][index]['data_predict']) - 1
-            with open('./stock/stock.json', 'w') as f:
-                json.dump(jsonStock, f)
+            isUpdatedData = jsonStock['data'][index]['last_date'] != data.iloc[-1].name.strftime('%Y-%m-%d') #cek apakah data sudah up to date
+            if isUpdatedData:
+                jsonStock['data'][index]['data_predict'].append({
+                    "updated_at": 0,
+                    "name_file": "",
+                    "rmse": 0,
+                    "predict": 0,
+                    "date": "",
+                })
+                predict_index = len(jsonStock['data'][index]['data_predict']) - 1
+                with open('./stock/stock.json', 'w') as f:
+                    json.dump(jsonStock, f)
+            else:
+                pass
+            
             break
         else:
             isTickerExist = False
@@ -52,6 +59,7 @@ def ganerateData(ticker):
                 "name_file": "",
                 "rmse": 0,
                 "predict": 0,
+                "date": "",
             }],
         })
         
@@ -96,7 +104,7 @@ def trainData(ticker, x_train, y_train, train_len, scaled_data, valdataset, scal
     model.add(Dense(1))
 
     model.compile(optimizer='adam', loss='mean_squared_error')
-    model.fit(x_train, y_train, batch_size=1, epochs=1, callbacks=[EarlyStopping(monitor='loss', patience=5)])
+    model.fit(x_train, y_train, batch_size=25, epochs=32, callbacks=[EarlyStopping(monitor='loss', patience=5)])
     
     model.save(f'stock/{ticker}/Model_{ticker}.h5')
 
@@ -124,6 +132,7 @@ def collect_data(ticker, jsonStock, index, data, dataset, lastDate, len_predict,
     jsonStock['data'][index]["data_predict"][predict_index]['rmse'] = rmse.item()
     jsonStock['data'][index]["data_predict"][predict_index]['updated_at'] = math.floor(time.time())
     jsonStock['data'][index]["data_predict"][predict_index]['name_file'] = f'{lastDate}.csv'
+    jsonStock['data'][index]["data_predict"][predict_index]['date'] = lastDate
     jsonStock['data'][index]['last_date'] = lastDate
 
     dataset['predict'] = 0
