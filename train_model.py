@@ -71,6 +71,23 @@ def ganerateData(ticker, data):
     else:
         return index, jsonStock, predict_index
 
+def calculate_mape(actual, predicted):
+    if len(actual) != len(predicted):
+        raise ValueError("Panjang actual dan predicted harus sama.")
+    
+    absolute_errors = []
+    for i in range(len(actual)):
+        absolute_error = abs(actual[i] - predicted[i])
+        absolute_errors.append(absolute_error)
+    
+    percentage_errors = []
+    for i in range(len(actual)):
+        percentage_error = (absolute_errors[i] / actual[i]) * 100
+        percentage_errors.append(percentage_error)
+    
+    mean_percentage_error = sum(percentage_errors) / len(percentage_errors)
+    return mean_percentage_error
+
 def initialData(ticker, data):
     ts = data.iloc[-1].name
     lastDate = ts.strftime('%Y-%m-%d')
@@ -124,10 +141,12 @@ def trainData(ticker, x_train, y_train, train_len, scaled_data, valdataset, scal
 
 def collect_data(ticker, jsonStock, index, data, dataset, lastDate, len_predict, train_len, scaled_data, scaler, valdataset, x_train, y_train, predict_index):
     rmse = 9990
-    while rmse > 300:
+    while rmse > 20:
         predict, y_test, model = trainData(ticker, x_train, y_train, train_len, scaled_data, valdataset, scaler)
         rmse = np.sqrt(np.mean(predict - y_test)**2)
+        mape = calculate_mape(y_test, predict)
         print(rmse)
+        print(mape)
 
     jsonStock['data'][index]["data_predict"][predict_index]['rmse'] = rmse.item()
     jsonStock['data'][index]["data_predict"][predict_index]['updated_at'] = math.floor(time.time())

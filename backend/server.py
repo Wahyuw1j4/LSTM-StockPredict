@@ -1,9 +1,12 @@
 from flask import Flask, request
 import os
 import csv,json
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app, origins=['*'])
+
 
 @app.route("/")
 def hello_world():
@@ -30,30 +33,38 @@ def getStockJson():
 
 @app.route("/stock")
 def getStockJsonByTicker():
-    ticker = request.args.get("ticker").upper()
+    ticker = request.args.get("ticker")
     print(ticker)
     filename = os.path.join(app.static_folder,'..', '../stock/stock.json')
     with open(filename) as test_file:
         data = json.load(test_file)
-    for i, stock in enumerate(data['data']):
-        if stock['name'] == ticker:
-            return stock
-    return data
+    if ticker is None:
+        print("masuk 1")
+        return data
+    else:
+        print("masuk 2")
+        for i, stock in enumerate(data['data']):
+            if stock['name'] == ticker.upper():
+                return stock
+
 
 @app.route("/datastock")
 def getStockCSV():
     ticker = request.args.get("ticker").upper()
     date = request.args.get("date")
-    if date is None:
-        return "Date not found"
     json_file_path = os.path.join(app.static_folder, '../../stock/stock.json')
     with open(json_file_path) as json_file:
         data = json.load(json_file)
-    for i, stock in enumerate(data['data']):
-        if stock['name'] == ticker:
-            csv_file_path = os.path.join(app.static_folder, f"../../stock/{ticker}/{stock['last_date']}.csv")
-            json_data = csv_to_json(csv_file_path)
-            return json_data
+    if date is None:
+        for i, stock in enumerate(data['data']):
+            if stock['name'] == ticker:
+                csv_file_path = os.path.join(app.static_folder, f"../../stock/{ticker}/{stock['last_date']}.csv")
+                json_data = csv_to_json(csv_file_path)
+                return json_data
+    else:
+        csv_file_path = os.path.join(app.static_folder, f"../../stock/{ticker}/{date}.csv")
+        json_data = csv_to_json(csv_file_path)
+        return json_data
     return "Data not found"
     
 if __name__ == "__main__":

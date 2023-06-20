@@ -22,6 +22,7 @@ if __name__ == "__main__":
                 print("data sudah up to date")
         i = i + 1
         if i == len(tickerList):
+            print("sleeping for 1 hour")
             time.sleep(3600)
             i = 0
         time.sleep(5)
