@@ -1,12 +1,13 @@
 from train_model import downloadData, ganerateData, initialData, collect_data
+from db import getStock
 import time
 
 
 if __name__ == "__main__":
-    tickerList = ['BBCA.JK', 'BMRI.JK', 'BBRI.JK']
 
     i = 0
     while True:
+        tickerList = getStock()
         ticker = tickerList[i]
         data = downloadData(ticker)
         if data.empty:
