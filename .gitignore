@@ -1,4 +1,3 @@
 __pycache__
-stock/
-!stock/stock-copy.json
+!stock/stock.json
 db.py
