@@ -1,4 +1,5 @@
 from train_model import downloadData, ganerateData, initialData, collect_data
+from manipJson import remove_zero_updated_data
 from db import getStock
 import time
 
@@ -10,6 +11,7 @@ if __name__ == "__main__":
         tickerList = getStock()
         ticker = tickerList[i]
         data = downloadData(ticker)
+        remove_zero_updated_data()
         if data.empty:
             print("data tidak ditemukan")
         else:
